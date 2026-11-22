@@ -1,0 +1,74 @@
+{% extends 'admin_base.html' %}
+{% block title %}{{ 'Редактировать проект' if editing else 'Добавить проект' }}{% endblock %}
+{% block content %}
+  <div class="admin-title-row">
+    <h1 class="admin-title">{{ 'Редактировать проект' if editing else 'Добавить проект' }}</h1>
+    <a class="button button-outline" href="{{ url_for('admin_dashboard') }}">Назад</a>
+  </div>
+  <section class="contact-card admin-edit-card">
+    <form id="project-form" method="post" action="{{ url_for('admin_project_edit', project_id=project_id) if editing else url_for('admin_project_new') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="form-field">
+        <label for="project-title">Название</label>
+        <input id="project-title" name="title" type="text" required minlength="2" maxlength="160" value="{{ data.title }}" {% if errors.title %}aria-invalid="true"{% endif %}>
+        {% if errors.title %}<span class="field-error" role="alert">{{ errors.title }}</span>{% endif %}
+      </div>
+      <div class="form-field">
+        <label for="project-description">Краткое описание</label>
+        <textarea id="project-description" name="description" rows="5" required minlength="10" maxlength="3000" {% if errors.description %}aria-invalid="true"{% endif %}>{{ data.description }}</textarea>
+        {% if errors.description %}<span class="field-error" role="alert">{{ errors.description }}</span>{% endif %}
+      </div>
+      <div class="form-field">
+        <label for="project-stack">Технологии и инструменты</label>
+        <input id="project-stack" name="stack" type="text" required value="{{ data.stack }}" placeholder="Python, Flask, SQLite" {% if errors.stack %}aria-invalid="true"{% endif %}>
+        <span class="admin-help">Перечисли через запятую.</span>
+        {% if errors.stack %}<span class="field-error" role="alert">{{ errors.stack }}</span>{% endif %}
+      </div>
+      <div class="form-field">
+        <label for="project-visual-type">Что показывать в карточке</label>
+        <select id="project-visual-type" name="visual_type">
+          <option value="text" {% if data.visual_type == 'text' %}selected{% endif %}>Надпись</option>
+          <option value="image" {% if data.visual_type == 'image' %}selected{% endif %}>Изображение</option>
+        </select>
+      </div>
+      <div class="form-field" data-visual-field="text">
+        <label for="project-visual-text">Текст на карточке</label>
+        <input id="project-visual-text" name="visual_text" type="text" maxlength="120" value="{{ data.visual_text }}" placeholder="Например, NetClue">
+        {% if errors.visual_text %}<span class="field-error" role="alert">{{ errors.visual_text }}</span>{% endif %}
+      </div>
+      <div class="form-field" data-visual-field="image">
+        <label for="project-image">Имя файла изображения</label>
+        <input id="project-image" name="image_filename" type="text" maxlength="160" value="{{ data.image_filename }}" placeholder="rust-eoka.png">
+        <span class="admin-help">Изображение должно находиться в папке static/images.</span>
+        {% if errors.image_filename %}<span class="field-error" role="alert">{{ errors.image_filename }}</span>{% endif %}
+      </div>
+      <div class="form-field">
+        <label for="project-order">Порядок отображения</label>
+        <input id="project-order" name="sort_order" type="number" min="0" max="9999" step="1" required value="{{ data.sort_order }}">
+        {% if errors.sort_order %}<span class="field-error" role="alert">{{ errors.sort_order }}</span>{% endif %}
+      </div>
+      <fieldset class="admin-links-group">
+        <legend>Ссылки на проект</legend>
+        <span class="admin-help">Вставь адрес сайта или путь к отчёту, например /static/docs/netclue-report.docx.</span>
+        <div id="project-links-list">
+          {% for link in data.links %}
+          <div class="admin-link-row">
+            <div class="form-field">
+              <label>Название ссылки</label>
+              <input name="link_label" type="text" maxlength="110" value="{{ link.label }}" placeholder="Отчёт о проекте">
+            </div>
+            <div class="form-field">
+              <label>Адрес ссылки</label>
+              <input name="link_url" type="text" maxlength="600" value="{{ link.url }}" placeholder="https://... или /static/docs/...">
+            </div>
+            <button class="admin-remove-link" type="button" data-remove-link aria-label="Убрать эту ссылку">Убрать</button>
+          </div>
+          {% endfor %}
+        </div>
+        <button class="button button-outline admin-add-link" type="button" id="add-project-link">Добавить ссылку</button>
+        {% if errors.links %}<span class="field-error" role="alert">{{ errors.links }}</span>{% endif %}
+      </fieldset>
+      <button class="button button-primary submit-button" type="submit">Сохранить проект</button>
+    </form>
+  </section>
+{% endblock %}

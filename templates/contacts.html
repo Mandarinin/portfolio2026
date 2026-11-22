@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fcfafc">
+  <meta name="description" content="Контакты Тихоновой Виктории — форма обратной связи.">
+  <title>Контакты — Тихонова Виктория</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</head>
+<body>
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <!-- Скрытая ссылка на вход администратора. -->
+      <a class="brand" href="/admin/login" aria-label="Тихонова Виктория">Тихонова Виктория</a>
+      <button class="menu-toggle" type="button" aria-label="Открыть меню" aria-controls="site-menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="site-nav" id="site-menu" aria-label="Навигация по сайту">
+        <a class="nav-link" href="{{ url_for('index') }}">Главная</a>
+        <a class="nav-link" href="{{ url_for('projects') }}">Проекты</a>
+        <a class="nav-link active" href="{{ url_for('contacts') }}" aria-current="page">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container contacts-page" id="main">
+    <h1 class="contacts-title">Контакты</h1>
+    <section class="contact-card" aria-label="Форма обратной связи">
+      {% if sent %}
+        <p class="form-success" role="status">Сообщение отправлено.</p>
+      {% endif %}
+      <form id="contact-form" action="{{ url_for('contacts') }}" method="post" novalidate>
+        <div class="form-field">
+          <label for="contact-name">Имя</label>
+          <input id="contact-name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="80" value="{{ form_data.name }}" aria-describedby="name-error" {% if errors.name %}aria-invalid="true"{% endif %}>
+          <span class="field-error" id="name-error" aria-live="polite">{{ errors.get('name', '') }}</span>
+        </div>
+        <div class="form-field">
+          <label for="contact-email">Email</label>
+          <input id="contact-email" name="email" type="email" autocomplete="email" required maxlength="254" value="{{ form_data.email }}" aria-describedby="email-error" {% if errors.email %}aria-invalid="true"{% endif %}>
+          <span class="field-error" id="email-error" aria-live="polite">{{ errors.get('email', '') }}</span>
+        </div>
+        <div class="form-field">
+          <label for="contact-message">Сообщение</label>
+          <textarea id="contact-message" name="message" required minlength="10" maxlength="2000" rows="6" aria-describedby="message-error" {% if errors.message %}aria-invalid="true"{% endif %}>{{ form_data.message }}</textarea>
+          <span class="field-error" id="message-error" aria-live="polite">{{ errors.get('message', '') }}</span>
+        </div>
+        <button class="button button-primary submit-button" type="submit">Отправить</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

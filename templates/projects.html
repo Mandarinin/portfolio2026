@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fcfafc">
+  <meta name="description" content="Проекты Тихоновой Виктории: мобильное приложение, работы для Rust и обработка фотографий.">
+  <title>Проекты — Тихонова Виктория</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</head>
+<body>
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <!-- Скрытая ссылка на вход администратора. -->
+      <a class="brand" href="/admin/login" aria-label="Тихонова Виктория">Тихонова Виктория</a>
+      <button class="menu-toggle" type="button" aria-label="Открыть меню" aria-controls="site-menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="site-nav" id="site-menu" aria-label="Навигация по сайту">
+        <a class="nav-link" href="{{ url_for('index') }}">Главная</a>
+        <a class="nav-link active" href="{{ url_for('projects') }}" aria-current="page">Проекты</a>
+        <a class="nav-link" href="{{ url_for('contacts') }}">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container projects-page" id="main">
+    <h1 class="projects-title">Проекты</h1>
+    <div class="project-grid">
+      {% for project in projects %}
+      <article class="project-card">
+        {% if project.visual_type == 'image' and project.image_filename %}
+          <div class="project-visual project-photo">
+            <img src="{{ url_for('static', filename='images/' ~ project.image_filename) }}" alt="Изображение проекта {{ project.title }}" loading="lazy">
+          </div>
+        {% else %}
+          <div class="project-visual project-text-visual project-visual-{{ loop.index }}" aria-hidden="true">
+            <span>{{ project.visual_text or project.title }}</span>
+          </div>
+        {% endif %}
+        <div class="project-content">
+          <h2>{{ project.title }}</h2>
+          <p class="project-description">{{ project.description }}</p>
+          <div class="project-stack" aria-label="Использованные технологии и инструменты">
+            {% for skill in project.stack_items %}
+              <span class="project-chip">{{ skill }}</span>
+            {% endfor %}
+          </div>
+          <div class="project-links">
+            {% for link in project.links %}
+              <a class="project-link" href="{{ link.url }}" {% if link.url.startswith('https://') %}target="_blank" rel="noopener noreferrer"{% else %}download{% endif %}>
+                {{ link.label }}
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </article>
+      {% else %}
+      <p>Проекты пока не добавлены.</p>
+      {% endfor %}
+    </div>
+  </main>
+</body>
+</html>

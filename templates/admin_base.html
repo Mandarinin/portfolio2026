@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fcfafc">
+  <meta name="robots" content="noindex, nofollow">
+  <title>{% block title %}Админ-панель{% endblock %} — portfolio</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner admin-header-inner">
+      <a class="brand" href="{{ url_for('index') }}">Тихонова Виктория</a>
+      <nav class="admin-nav" aria-label="Административное меню">
+        {% if session.get('admin_id') %}
+          <a href="{{ url_for('admin_dashboard') }}">Проекты</a>
+          <a href="{{ url_for('admin_messages') }}">Сообщения</a>
+          <a href="{{ url_for('index') }}">На сайт</a>
+          <form method="post" action="{{ url_for('admin_logout') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit">Выйти</button>
+          </form>
+        {% else %}
+          <a href="{{ url_for('index') }}">На сайт</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+  <main class="container admin-page" id="main">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

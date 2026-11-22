@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fcfafc">
+  <meta name="description" content="Тихонова Виктория — Junior Developer. Обо мне и мои навыки.">
+  <title>Тихонова Виктория — Junior Developer</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</head>
+<body>
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <!-- Скрытая ссылка на вход администратора. -->
+      <a class="brand" href="/admin/login" aria-label="Тихонова Виктория">Тихонова Виктория</a>
+
+      <button class="menu-toggle" type="button" aria-label="Открыть меню" aria-controls="site-menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="site-nav" id="site-menu" aria-label="Навигация по сайту">
+        <a class="nav-link active" href="/" aria-current="page">Главная</a>
+        <a class="nav-link" href="{{ url_for('projects') }}">Проекты</a>
+        <a class="nav-link" href="{{ url_for('contacts') }}">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero container" aria-labelledby="hero-title">
+      <div class="hero-content">
+        <h1 id="hero-title">Привет!<br><span class="name-line">Я Тихонова Виктория</span></h1>
+        <p class="role-line">Junior Developer</p>
+        <p class="hero-description">Изучаю программирование, создаю учебные проекты и не только.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="{{ url_for('projects') }}">
+            Проекты
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M4 12h15m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="button button-outline" href="{{ url_for('contacts') }}">
+            Контакты
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M3.5 6.5h17v11h-17zM4 7l8 6 8-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <!-- Просто замените файл static/images/photo.jpg на свою фотографию. -->
+        <img class="portrait" src="{{ url_for('static', filename='images/photo.jpg') }}" alt="Фотография Виктории (пока изображение-заглушка)" width="900" height="970">
+      </div>
+    </section>
+
+    <section class="details container" aria-label="Навыки и информация обо мне">
+      <article class="info-card skills-card" id="skills">
+        <div class="card-heading">
+          <span class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none"><path d="m16 3 12 7-12 7L4 10l12-7Zm-12 13 12 7 12-7M4 22l12 7 12-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <h2>Стек навыков</h2>
+        </div>
+        <div class="skills-list" aria-label="Мои навыки">
+          <span class="skill"><span class="skill-symbol python" aria-hidden="true">Py</span>Python</span>
+          <span class="skill"><span class="skill-symbol flask" aria-hidden="true">Fl</span>Flask</span>
+          <span class="skill"><span class="skill-symbol html" aria-hidden="true">H5</span>HTML5</span>
+          <span class="skill"><span class="skill-symbol css" aria-hidden="true">C3</span>CSS3</span>
+          <span class="skill"><span class="skill-symbol js" aria-hidden="true">JS</span>JavaScript</span>
+          <span class="skill"><span class="skill-symbol sql" aria-hidden="true">DB</span>SQL</span>
+          <span class="skill"><span class="skill-symbol java" aria-hidden="true">Jv</span>Java</span>
+          <span class="skill"><span class="skill-symbol android" aria-hidden="true">An</span>Android Studio</span>
+          <span class="skill"><span class="skill-symbol android-sdk" aria-hidden="true">SDK</span>Android SDK</span>
+          <span class="skill"><span class="skill-symbol sqlite" aria-hidden="true">DB</span>SQLite</span>
+          <span class="skill"><span class="skill-symbol cloud" aria-hidden="true">AI</span>OpenRouter</span>
+          <span class="skill"><span class="skill-symbol cloud" aria-hidden="true">Cf</span>Cloudflare</span>
+          <span class="skill"><span class="skill-symbol github" aria-hidden="true">GH</span>GitHub</span>
+          <span class="skill"><span class="skill-symbol cpp" aria-hidden="true">C++</span>C++</span>
+          <span class="skill"><span class="skill-symbol csharp" aria-hidden="true">C#</span>C#</span>
+          <span class="skill"><span class="skill-symbol modeling" aria-hidden="true">3D</span>3D-моделирование (Blender)</span>
+          <span class="skill"><span class="skill-symbol graphics" aria-hidden="true">Gr</span>Графика (Krita, GIMP, Aseprite)</span>
+          <span class="skill"><span class="skill-symbol video" aria-hidden="true">Vi</span>Видеомонтаж (CapCut)</span>
+        </div>
+      </article>
+
+      <article class="info-card about-card" id="about">
+        <div class="card-heading">
+          <span class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="9" r="5.2" stroke="currentColor" stroke-width="2.1"/><path d="M5 28v-2.5c0-5.5 4.2-9 11-9s11 3.5 11 9V28H5Z" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/></svg>
+          </span>
+          <h2>Обо мне</h2>
+        </div>
+        <p>Меня зовут Тихонова Виктория. Я обучаюсь на 3 курсе в Северо-Восточном федеральном университете по направлению «Прикладная информатика в экономике».</p>
+        <p>Интересуюсь веб-разработкой и геймдевом, постепенно развиваю свои навыки на практике.</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

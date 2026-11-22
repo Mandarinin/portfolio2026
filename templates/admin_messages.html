@@ -1,0 +1,19 @@
+{% extends 'admin_base.html' %}
+{% block title %}Сообщения{% endblock %}
+{% block content %}
+  <h1 class="admin-title">Сообщения</h1>
+  <div class="admin-list">
+    {% for item in messages %}
+      <article class="admin-list-item admin-message">
+        <div class="admin-message-info">
+          <h2>{{ item.name }}</h2>
+          <a href="mailto:{{ item.email }}">{{ item.email }}</a>
+          <p class="admin-meta">{{ item.created_at.strftime('%d.%m.%Y %H:%M') if item.created_at else '' }}</p>
+        </div>
+        <p class="admin-message-body">{{ item.message }}</p>
+      </article>
+    {% else %}
+      <p class="admin-empty">Сообщений пока нет.</p>
+    {% endfor %}
+  </div>
+{% endblock %}
